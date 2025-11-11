@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="card mb-4">
+  <div class="card-header bg-primary text-white">Add Student</div>
+  <div class="card-body">
+    <form action="{{ url_for('index') }}" method="POST" class="row g-3" novalidate>
+      
+      {{ form.hidden_tag() }}
+
+      <div class="col-md-3">
+        {{ form.roll_no.label(class="form-label") }}
+        {{ form.roll_no(class="form-control" + (" is-invalid" if form.roll_no.errors else ""), placeholder="Roll No") }}
+        {% for error in form.roll_no.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Name") }}
+        {% for error in form.name.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="Email") }}
+        {% for error in form.email.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+      
+      <div class="col-md-3">
+        {{ form.course.label(class="form-label") }}
+        {{ form.course(class="form-control" + (" is-invalid" if form.course.errors else ""), placeholder="Course") }}
+        {% for error in form.course.errors %}
+          <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-12 text-end">
+        {{ form.submit(class="btn btn-success mt-2") }}
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header bg-dark text-white">Students List</div>
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th><th>Roll No</th><th>Name</th><th>Email</th><th>Course</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td>{{ s.id }}</td>
+          <td>{{ s.roll_no }}</td>
+          <td>{{ s.name }}</td>
+          <td>{{ s.email }}</td>
+          <td>{{ s.course }}</td>
+          <td>
+            <a href="{{ url_for('update_student', id=s.id) }}" class="btn btn-sm btn-warning">Edit</a>
+            
+            <form action="{{ url_for('delete_student', id=s.id) }}" method="POST" style="display:inline;"
+                  onsubmit="return confirm('Are you sure you want to delete this student?');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="text-center">No students yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock content %}

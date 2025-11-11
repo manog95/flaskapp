@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+    <div class="container-fluid py-5">
+      <h1 class="display-5 fw-bold">Welcome to the Student Management System</h1>
+      <p class="col-md-8 fs-4">
+        This is a secure Flask application built to manage student records.
+        Please log in or register to continue.
+      </p>
+      <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Login</a>
+      <a href="{{ url_for('register') }}" class="btn btn-secondary btn-lg">Register</a>
+    </div>
+  </div>
+{% endblock content %}
