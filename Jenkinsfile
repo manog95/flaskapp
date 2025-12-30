@@ -5,7 +5,9 @@ pipeline {
         stage('Clone') {
             steps {
                 echo 'Cloning repository...'
-                git 'https://github.com/manog95/flaskapp'
+                // Use 'checkout scm' to use the repository configured in the Jenkins job
+                // This correctly handles branches (like 'main') and credentials automatically.
+                checkout scm
             }
         }
 
