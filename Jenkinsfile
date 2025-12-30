@@ -8,6 +8,7 @@ pipeline {
                 // Use 'checkout scm' to use the repository configured in the Jenkins job
                 // This correctly handles branches (like 'main') and credentials automatically.
                 checkout scm
+                echo 'Clone stage successfully completed'
             }
         }
 
@@ -25,6 +26,7 @@ pipeline {
                         bat 'call venv\\Scripts\\activate.bat && pip install -r requirements.txt'
                     }
                 }
+                echo 'Install Dependencies stage successfully completed'
             }
         }
 
@@ -38,6 +40,7 @@ pipeline {
                         bat 'call venv\\Scripts\\activate.bat && python -m pytest'
                     }
                 }
+                echo 'Run Unit Tests stage successfully completed'
             }
         }
 
@@ -55,6 +58,7 @@ pipeline {
                     }
                 }
                 archiveArtifacts artifacts: 'flaskapp.zip', allowEmptyArchive: true
+                echo 'Build stage successfully completed'
             }
         }
 
@@ -67,11 +71,12 @@ pipeline {
                          // Example: unzip flaskapp.zip -d /var/www/flaskapp
                          // sh 'unzip -o flaskapp.zip -d /var/www/flaskapp'
                     } else {
-                         echo "Deploying to production server at C:\\inetpub\\wwwroot\\flaskapp..."
-                         // Example: Expand-Archive flaskapp.zip -DestinationPath C:\inetpub\wwwroot\flaskapp -Force
-                         // powershell 'Expand-Archive -Path flaskapp.zip -DestinationPath "C:\\inetpub\\wwwroot\\flaskapp" -Force'
+                         echo "Deploying to local Desktop folder..."
+                         // Expand to specific Desktop folder
+                         powershell 'Expand-Archive -Path flaskapp.zip -DestinationPath "C:\\Users\\Malik Inam\\Desktop\\flask_deploy" -Force'
                     }
                 }
+                echo 'Deploy stage successfully completed'
             }
         }
     }
